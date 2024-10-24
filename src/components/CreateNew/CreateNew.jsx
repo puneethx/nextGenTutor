@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { X, Upload, Plus } from "lucide-react";
 import "./CreateNew.css"
 import data from "../../data.json"
+// import path from 'path';
 
 const CreateNew = ({ isOpen, onClose, onSubmit }) => {
     const [step, setStep] = useState(1);
@@ -117,6 +118,29 @@ const CreateNew = ({ isOpen, onClose, onSubmit }) => {
         }
     };
 
+    // const handleSubmit = async () => {
+    //     if (!formData.category) {
+    //         alert('Please select a category');
+    //         return;
+    //     }
+
+    //     try {
+    //         const response = await fetch('http://api.com/2394830-298309', {
+    //             method: 'POST',
+    //             headers: {
+    //                 'Content-Type': 'application/json',
+    //             },
+    //             body: JSON.stringify(formData),
+    //         });
+
+    //         if (response.ok) {
+    //             window.location.href = '/biology';
+    //         }
+    //     } catch (error) {
+    //         console.error('Error:', error);
+    //     }
+    // };
+
     const handleSubmit = async () => {
         if (!formData.category) {
             alert('Please select a category');
@@ -124,21 +148,43 @@ const CreateNew = ({ isOpen, onClose, onSubmit }) => {
         }
 
         try {
-            const response = await fetch('http://api.com/2394830-298309', {
+            // Create the new subject entry
+            const newSubject = {
+                id: data.subjects.length + 1,
+                title: formData.title,
+                description: formData.description,
+                category: formData.category,
+                link: `/${formData.category.toLowerCase()}`
+            };
+
+            // Send the update to your backend API
+            const response = await fetch('/api/subjects', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(formData),
+                body: JSON.stringify(newSubject),
             });
 
-            if (response.ok) {
-                window.location.href = '/biology';
+            
+ 
+            if (!response.ok) {
+                throw new Error('Failed to create new subject');
             }
+
+            // If successful, call onSubmit prop and redirect
+            if (onSubmit) {
+                onSubmit(newSubject);
+            }
+            
+            handleClose();
+            window.location.href = `/${formData.category.toLowerCase()}`;
         } catch (error) {
             console.error('Error:', error);
+            alert('Failed to create new subject. Please try again.');
         }
     };
+
 
     const ErrorMessage = ({ message }) => (
         message ? (
@@ -196,7 +242,7 @@ const CreateNew = ({ isOpen, onClose, onSubmit }) => {
                                         type="file"
                                         className="hidden"
                                         onChange={handleFileUpload}
-                                        accept=".doc,.docx,.pdf"
+                                        accept=".doc,.docx"
                                     />
                                 </label>
                                 <span className="file-name">
