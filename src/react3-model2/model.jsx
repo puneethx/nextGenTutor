@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React from 'react'
 import { Loader } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import { Leva } from "leva";
@@ -7,11 +7,9 @@ import { useChat } from "../react3/hooks/useChat";
 import Chat from "../components/ChatApp/ChatApp"
 import "./model.css"
 
-
 const main = () => {
 
     const { chat, loading, cameraZoomed, setCameraZoomed, message } = useChat();
-
 
     return (
         <div className='body'>
@@ -21,24 +19,6 @@ const main = () => {
                 <div id="stars"></div>
                 <div id="stars2"></div>
             </div>
-            {/* <WebcamContainer>
-                {capturedImage ? (
-                    <>
-                        <PreviewImg src={capturedImage} className="captured-image" />
-                        <WebcamButton onClick={resetState}>Reset</WebcamButton>
-                    </>
-                ) : (
-                    <>
-                        <WebcamVideo ref={videoRef} autoPlay muted />
-                        <WebcamCanvas ref={canvasRef} />
-                        {!videoRef.current ? (
-                            <WebcamButton onClick={startWebcam}>Start Webcam</WebcamButton>
-                        ) : (
-                            <WebcamButton onClick={captureImage}>Capture Image</WebcamButton>
-                        )}
-                    </>
-                )}
-            </WebcamContainer> */}
             <div className="left">
                 <Canvas shadows camera={{ position: [0, 0, 1], fov: 40 }}>
                     <Experience />
@@ -47,11 +27,10 @@ const main = () => {
             <div className="right">
                 <Chat />
             </div>
-
-            <div className="zoom">
+            <div className="camera">
                 <button
                     onClick={() => setCameraZoomed(!cameraZoomed)}
-                    className="zoom-button"
+                    className="camera-button"
                 >
                     {cameraZoomed ? (
                         <img src="https://cdn-icons-png.flaticon.com/128/17446/17446013.png" alt="Zoom In" />

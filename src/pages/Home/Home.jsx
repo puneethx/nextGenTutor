@@ -3,6 +3,7 @@ import { X, Upload, Plus } from "lucide-react";
 import SubjectCard from "../../components/SubjectCard/SubjectCard";
 import CreateNew from "../../components/CreateNew/CreateNew";
 import data from "../../data.json";
+import WebcamDisplay from "../../react3/WebcamDisplay";
 
 const Home = () => {
 
@@ -45,6 +46,7 @@ const Home = () => {
                     onSubmit={(data) => console.log(data)}
                 />
             </main>
+            <WebcamDisplay/>
         </div>
     )
 }
